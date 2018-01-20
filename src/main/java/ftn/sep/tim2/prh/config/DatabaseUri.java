@@ -8,6 +8,21 @@ public class DatabaseUri {
 	
 	@Value("${spring.data.database}")
 	private String databaseUri;
+	
+	@Value("${spring.data.pcc}")
+	private String pccUri;
+	
+	public DatabaseUri(){
+		
+	}
+
+	public String getPccUri() {
+		return pccUri;
+	}
+
+	public void setPccUri(String pccUri) {
+		this.pccUri = pccUri;
+	}
 
 	public String getDatabaseUri() {
 		return databaseUri;
