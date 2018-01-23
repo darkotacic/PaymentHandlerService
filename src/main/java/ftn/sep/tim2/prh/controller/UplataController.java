@@ -1,6 +1,7 @@
 package ftn.sep.tim2.prh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import ftn.sep.tim2.prh.config.DatabaseUri;
 import ftn.sep.tim2.prh.model.Osiguranje;
+import ftn.sep.tim2.prh.model.TipUplate;
 import ftn.sep.tim2.prh.model.Uplata;
 import ftn.sep.tim2.prh.service.UplataService;
 
@@ -28,32 +30,32 @@ public class UplataController {
 		this.restTemplate = restTemplate;
 	}
 	
-	@PostMapping
+	@PostMapping("/{tipUplate}")
 	@ResponseBody
-	public String createUplata(@RequestBody Osiguranje osiguranje) {
-		Uplata uplata = uplataService.prepareUplata(osiguranje);
+	public String createUplata(@RequestBody Osiguranje osiguranje, @PathVariable("tipUplate") TipUplate tipUplate) {
+		Uplata uplata = uplataService.prepareUplata(osiguranje, tipUplate);
 		//slanje bazi na dodavanje radi dodele paymentID
 		uplata = restTemplate.postForObject(databaseUri.getDatabaseUri()+"/uplate/"+osiguranje.getId(), uplata, Uplata.class);
 		//slanje pcc na dalje placanje
 	    return restTemplate.postForObject(databaseUri.getPccUri()+"/pay", uplata, String.class);
 	}
 	
-	@PostMapping(value="/cancel")
+	@PostMapping("/cancel")
 	@ResponseBody
 	public void cancelUplata(@RequestBody Long uplataId) {
-		
+		restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/cancel", uplataId, Void.class);
 	}
 	
-	@PostMapping(value="/success")
+	@PostMapping("/success")
 	@ResponseBody
 	public void successUplata(@RequestBody Long uplataId) {
-	
+		restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/success", uplataId, Void.class);
 	}
 	
-	@PostMapping(value="/error")
+	@PostMapping("/error")
 	@ResponseBody
 	public void errorUplata(@RequestBody Long uplataId) {
-	
+		restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/error", uplataId, Void.class);
 	}
 	
 }
