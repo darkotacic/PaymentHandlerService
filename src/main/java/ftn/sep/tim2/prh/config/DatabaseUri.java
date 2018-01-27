@@ -12,6 +12,9 @@ public class DatabaseUri {
 	@Value("${spring.data.pcc}")
 	private String pccUri;
 	
+	@Value("${spring.data.pm}")
+	private String pcmUri;
+	
 	public DatabaseUri(){
 		
 	}
@@ -31,4 +34,13 @@ public class DatabaseUri {
 	public void setDatabaseUri(String databaseUri) {
 		this.databaseUri = databaseUri;
 	}
+
+	public String getPcmUri() {
+		return pcmUri;
+	}
+
+	public void setPcmUri(String pcmUri) {
+		this.pcmUri = pcmUri;
+	}
+	
 }

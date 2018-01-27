@@ -19,8 +19,8 @@ import ftn.sep.tim2.prh.service.UplataService;
 @RequestMapping("/payment")
 public class UplataController {
 	
-	private final RestTemplate restTemplate;
 	private final UplataService uplataService;
+	private final RestTemplate restTemplate;
 	private final DatabaseUri databaseUri;
 	
 	@Autowired
@@ -49,7 +49,8 @@ public class UplataController {
 	@PostMapping("/success")
 	@ResponseBody
 	public void successUplata(@RequestBody Long uplataId) {
-		restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/success", uplataId, Void.class);
+		Uplata uplata = restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/success", uplataId, Uplata.class);
+		restTemplate.postForObject(databaseUri.getPcmUri() + "/notification/notifyParties", uplata, Void.class);
 	}
 	
 	@PostMapping("/error")
