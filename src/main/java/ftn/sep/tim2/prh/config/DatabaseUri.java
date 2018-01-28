@@ -15,6 +15,12 @@ public class DatabaseUri {
 	@Value("${spring.data.pm}")
 	private String pcmUri;
 	
+	@Value("${spring.data.merchantId}")
+	private String merchantId;
+	
+	@Value("${spring.data.merchantPassword}")
+	private String merchantPassword;
+	
 	public DatabaseUri(){
 		
 	}
@@ -42,5 +48,20 @@ public class DatabaseUri {
 	public void setPcmUri(String pcmUri) {
 		this.pcmUri = pcmUri;
 	}
-	
+
+	public String getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantPassword() {
+		return merchantPassword;
+	}
+
+	public void setMerchantPassword(String merchantPassword) {
+		this.merchantPassword = merchantPassword;
+	}
 }

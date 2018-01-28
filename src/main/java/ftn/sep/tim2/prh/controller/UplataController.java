@@ -50,7 +50,7 @@ public class UplataController {
 	@ResponseBody
 	public void successUplata(@RequestBody Long uplataId) {
 		Uplata uplata = restTemplate.postForObject(databaseUri.getDatabaseUri() + "/uplate/success", uplataId, Uplata.class);
-		restTemplate.postForObject(databaseUri.getPcmUri() + "/notification/notifyParties", uplata, Void.class);
+		restTemplate.postForObject(databaseUri.getPcmUri() + "/notification/notifyParties", uplata, Boolean.class);
 	}
 	
 	@PostMapping("/error")
